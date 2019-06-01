@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>童老师ThinkPHP交流群：484519446</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__ADMIN__/style/bootstrap.css" rel="stylesheet">
+    <link href="__ADMIN__/style/font-awesome.css" rel="stylesheet">
+    <link href="__ADMIN__/style/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__ADMIN__/style/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__ADMIN__/style/demo.css" rel="stylesheet">
+    <link href="__ADMIN__/style/typicons.css" rel="stylesheet">
+    <link href="__ADMIN__/style/animate.css" rel="stylesheet">
+
+</head>
+<body>
+<!-- 头部 -->
+<div class="navbar">
+    <div class="navbar-inner">
+        {include file="common/top"}
+
+    </div>
+
+</div>
+
+<!-- /头部 -->
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <!-- Page Sidebar -->
+        {include file="common/left"}
+        <!-- /Page Sidebar -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{:url('index/index')}">系统</a>
+                    </li>
+                    <li class="active">用户管理</li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+
+            <!-- Page Body -->
+            <div class="page-body">
+
+                <button type="button" tooltip="添加用户" class="btn btn-sm btn-azure btn-addon"
+                        onClick="javascript:window.location.href = '{:url(\'add\')}'"><i class="fa fa-plus"></i> Add
+                </button>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="widget">
+                            <div class="widget-body">
+                                <div class="flip-scroll">
+                                    <form method="post" action="">
+
+                                        <table class="table table-bordered table-hover" style="width: 500px">
+                                            <thead class="">
+                                            <tr>
+                                                <th class="center">配置类型</th>
+                                                <th class="center">配置名称</th>
+                                                <th class="center">配置值</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {volist name="confs" id="conf"}
+                                            <tr>
+                                                <td align="left">
+                                                    {switch name="$conf.type"}
+                                                    {case value="1"}单行文本域{/case}
+                                                    {case value="2"}多行文本域{/case}
+                                                    {case value="3"}单选按钮{/case}
+                                                    {case value="4"}多选按钮{/case}
+                                                    {case value="5"}下拉菜单{/case}
+                                                    {default /}未知类型
+                                                    {/switch}
+                                                </td>
+                                                <td align="left" width="120px">{$conf.cname}</td>
+                                                <td align="left">
+                                                <?php
+                                                    //类型输出
+                                                    switch ($conf['type']){
+                                                        case 1:
+                                                            echo '<input type="text" name="'.$conf['id'].'"  value="'.$conf['value'].'" class="form-control" width="200px">';
+                                                            break;
+                                                        case 2:
+                                                            echo '<textarea class="form-control" width="200px"  name="'.$conf['id'].'"  >'.$conf['value'].'</textarea>';
+                                                            break;
+                                                        case 3:
+                                                            $radiovalues = explode(',',$conf['values']);
+
+                                                            foreach ($radiovalues as $v) {
+                                                                if($conf['value'] == $v){
+                                                                    echo '<label><input checked="checked"  name="'.$conf['id'].'"   value="'.$v.'" type="radio"><span class="text">'.$v.'</span></label>&nbsp;&nbsp;&nbsp;';
+                                                                }else{
+                                                                    echo '<label><input  name="'.$conf['id'].'"   value="'.$v.'" type="radio"><span class="text">'.$v.'</span></label>&nbsp;&nbsp;&nbsp;';
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 4:
+
+                                                            echo '<label><input checked="checked" id="form-field-checkbox"  name="'.$conf['id'].'"   type="checkbox" value="true"><input name="'.$conf['id'].'" type="hidden" value="'.$conf['values'].'"><span class="text">Basic</span></label>';
+                                                            break;
+                                                        case 5:
+                                                            $selectvalues = explode(',',$conf['values']);
+                                                            echo '<div class="col-sm-6" >
+                                                            <select name = "'.$conf['id'].'" >';
+                                                            foreach ($selectvalues as $v) {
+                                                                if($conf['value'] == $v){
+                                                                    echo '<option value = "'.$v.'" selected="selected">'.$v.'</option >';
+                                                                }else{
+                                                                    echo '<option value = "'.$v.'">'.$v.'</option >';
+                                                                }
+                                                            }
+                                                            echo '</select ></div >';
+                                                            break;
+
+                                                        default:
+                                                            echo '未知类型';
+                                                            break;
+                                                    }
+                                                ?>
+                                                </td>
+                                            </tr>
+                                            {/volist}
+
+                                            <tr>
+                                            <td></td>
+                                            <td class="center-align">
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                        <button type="submit" class="btn btn-default">修改信息</button>
+                                                    </div>
+                                                </div>
+                                            </td><td></td>
+                                            </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+
+                                    </form>
+                                    <div style="margin: 10px 0px 0px 0px;">
+                                    </div>
+
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+    </div>
+</div>
+
+<!--Basic Scripts-->
+<script src="__ADMIN__/style/jquery_002.js"></script>
+<script src="__ADMIN__/style/bootstrap.js"></script>
+<script src="__ADMIN__/style/jquery.js"></script>
+<!--Beyond Scripts-->
+<script src="__ADMIN__/style/beyond.js"></script>
+
+
+</body>
+</html>

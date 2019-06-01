@@ -1,0 +1,26 @@
+<div class="widget">
+
+    <div style="background: url('./style/img/hots_bg.png') no-repeat scroll 0 0 transparent;width:250px;height:52px;margin-bottom:15px;">
+    </div>
+    {volist name="hotRes" id="hot"}
+    <ul id="ulHot">
+
+        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
+            <div style="float:left;width:85px;height:55px; overflow:hidden;">
+                <a
+                    href="{:url('article/index',['artid'=>$hot['id']])}" target="_blank">
+                    <img src="__IMG__/{$hot.pic}"
+                         width="83"
+                         title="{$hot.title}"/>
+                </a>
+            </div>
+            <div style="float:right;width:145px;height:52px; overflow:hidden;">
+                <a
+                    href="{:url('article/index',['artid'=>$hot['id']])}" target="_blank"
+                    title="{$hot.title}">{$hot.title}
+                </a>
+            </div>
+        </li>
+    </ul>
+    {/volist}
+</div>
